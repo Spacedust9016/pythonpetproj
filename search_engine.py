@@ -64,10 +64,15 @@ class FileSearchEngine:
         # Determine search mode
         is_regex = query.startswith('/') and len(query) > 1
         is_glob = '*' in query or '?' in query
+        query_for_score = query
         
         if is_regex:
             try:
-                pattern = re.compile(query[1:], re.IGNORECASE)
+                regex_query = query[1:]
+                if regex_query.endswith('/') and len(regex_query) > 1:
+                    regex_query = regex_query[:-1]
+                query_for_score = regex_query
+                pattern = re.compile(regex_query, re.IGNORECASE)
                 match_func = lambda s: bool(pattern.search(s))
             except re.error:
                 match_func = lambda s: query_lower in s.lower()
@@ -88,7 +93,7 @@ class FileSearchEngine:
             
             # Check name match
             if match_func(file.name):
-                score = self._calculate_score(file.name, query)
+                score = self._calculate_score(file.name, query_for_score)
                 results.append(SearchResult(
                     name=file.name,
                     path=str(file.path),
@@ -101,7 +106,7 @@ class FileSearchEngine:
         # Search folders
         for folder in self._folder_index:
             if match_func(folder.name):
-                score = self._calculate_score(folder.name, query)
+                score = self._calculate_score(folder.name, query_for_score)
                 results.append(SearchResult(
                     name=folder.name,
                     path=str(folder.path),
