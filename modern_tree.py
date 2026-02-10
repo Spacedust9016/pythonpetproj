@@ -101,6 +101,13 @@ class ModernFolderTreeWidget(QTreeWidget):
         
         # Add children
         self._add_children(root_item, root_folder)
+
+        # Add root files (limit to top 20 for performance)
+        if root_folder.files:
+            sorted_files = sorted(root_folder.files, key=lambda f: f.size, reverse=True)[:20]
+            for file in sorted_files:
+                file_item = self._create_file_item(file)
+                root_item.addChild(file_item)
     
     def _create_folder_item(self, folder: FolderInfo, is_root: bool = False) -> QTreeWidgetItem:
         """Create tree item for a folder."""
