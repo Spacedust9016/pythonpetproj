@@ -55,6 +55,30 @@ python main.py --modern
 python main.py --classic
 ```
 
+
+### GitHub Profile Terminal Card
+
+Create a tidy anime ASCII terminal card for your GitHub profile README:
+
+```bash
+python main.py --profile-card
+# or
+python -m github_profile_terminal
+```
+
+Customize the output without editing code by setting environment variables:
+
+```bash
+GITHUB_PROFILE_NAME="Your Name" \
+GITHUB_PROFILE_HANDLE="@your-handle" \
+GITHUB_PROFILE_ROLE="Python builder" \
+GITHUB_PROFILE_LOCATION="Internet" \
+GITHUB_PROFILE_STATUS="Cleaning up my GitHub profile" \
+GITHUB_PROFILE_STACK="Python,Qt,CLI" \
+GITHUB_PROFILE_LINKS="github.com/your-handle,linkedin.com/in/you" \
+python main.py --profile-card
+```
+
 ## 📸 Screenshots
 
 ### Modern Interface

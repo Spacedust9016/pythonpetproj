@@ -1,6 +1,6 @@
 """
 File Analyzer - Entry point
-Run with: python main.py [--classic | --modern]
+Run with: python main.py [--classic | --modern | --profile-card]
 """
 import sys
 import argparse
@@ -30,9 +30,19 @@ def main():
         action='store_true', 
         help='Use the modern AI-like interface (default)'
     )
+    parser.add_argument(
+        '--profile-card',
+        action='store_true',
+        help='Print a simple anime ASCII GitHub profile card and exit'
+    )
     
     args = parser.parse_args()
     
+    if args.profile_card:
+        from github_profile_terminal import main as profile_main
+        profile_main()
+        return
+
     # Default to modern if no flag specified
     if args.classic:
         print("🎨 Starting File Analyzer with Classic UI...")
